@@ -19,6 +19,8 @@ class Migration(migrations.Migration):
                 ('balance', models.DecimalField(decimal_places=2, default=0, max_digits=64, verbose_name='Account balance')),
                 ('account_type', models.IntegerField(choices=[(0, 'Base account')], default=0, verbose_name='Account type')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='accounts', to=settings.AUTH_USER_MODEL)),
+                ('created', models.DateTimeField(auto_now_add=True, verbose_name='Created date')),
+                ('updated', models.DateTimeField(auto_now=True, verbose_name='Updated date')),
             ],
             options={
                 'verbose_name': 'Account',

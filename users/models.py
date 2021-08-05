@@ -40,6 +40,17 @@ class Account(models.Model):
         choices=ACCOUNT_CHOICES,
         default=BASE_ACCOUNT,
     )
+    created = models.DateTimeField(
+        'Created date',
+        auto_now_add=True,
+        null=False,
+        editable=False,
+    )
+    updated = models.DateTimeField(
+        'Updated date',
+        auto_now=True,
+        null=False,
+    )
 
     class Meta:
         unique_together = ['user_id', 'account_type']
