@@ -1,6 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+from depository.constants import (
+    AMOUNT_DECIMAL_PLACES,
+    AMOUNT_DECIMAL_MAX_DIGITS,
+)
+
 
 class User(AbstractUser):
     """
@@ -14,7 +19,7 @@ class User(AbstractUser):
 
 class Account(models.Model):
     BASE_ACCOUNT = 0
-    ACCOUNT_CHOISES = (
+    ACCOUNT_CHOICES = (
         (BASE_ACCOUNT, 'Base account'),
     )
     
@@ -26,13 +31,13 @@ class Account(models.Model):
     )
     balance = models.DecimalField(
         'Account balance',
-        decimal_places=2,  # choose places according to the project specific
+        decimal_places=AMOUNT_DECIMAL_PLACES,
         default=0,
-        max_digits=64,  # choose places according to the project specific
+        max_digits=AMOUNT_DECIMAL_MAX_DIGITS,
     )
     account_type = models.IntegerField(
         'Account type',
-        choices=ACCOUNT_CHOISES,
+        choices=ACCOUNT_CHOICES,
         default=BASE_ACCOUNT,
     )
 
