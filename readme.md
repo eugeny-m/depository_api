@@ -12,7 +12,7 @@
 ##### First Run
 
 * run migrations `docker exec depository_api_depository_api_1 python manage.py migrate`
-* generate test data `docker exec depository_api_depository_api_1 python generate_test_data.py`
+* generate test data `docker exec depository_api_depository_api_1 python generate_test_data.py --users_count 20000 --operations_count 10`
 
 #### Endpoints
 
