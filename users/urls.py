@@ -1,11 +1,17 @@
 from django.urls import path
-from users.views import UserAccountMonthlyReport
+from rest_framework.routers import SimpleRouter
+
+from users.views import UserAccountListViewset, AccountMonthlyReportAPIView
+
+
+router = SimpleRouter()
+router.register(r'accounts', UserAccountListViewset)
 
 
 urlpatterns = [
     path(
         'accounts/<account_id>/monthly-report/<int:year>/<int:month>',
-        UserAccountMonthlyReport.as_view(),
+        AccountMonthlyReportAPIView.as_view(),
         name='monthly-report',
     ),
 ]

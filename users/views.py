@@ -1,15 +1,16 @@
-from django.db.models import Sum, Q
 from django.utils import timezone
 
-from rest_framework.response import Response
 from rest_framework.exceptions import NotFound, ValidationError
+from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 
 from operations.models import Operation
 from users.models import Account
+from users.serializers import AccountSerializer
 
 
-class UserAccountMonthlyReport(APIView):
+class AccountMonthlyReportAPIView(APIView):
 
     def validate_path_params(self, year, month):
         now = timezone.now()
@@ -25,11 +26,14 @@ class UserAccountMonthlyReport(APIView):
             raise NotFound()
         self.validate_path_params(year, month)
 
-        income = Sum('amount', filter=Q(operation_type=Operation.INCOME))
-        outcome = Sum('amount', filter=Q(operation_type=Operation.OUTCOME))
         data = Operation.objects.filter(
             created__month=month,
             created__year=year,
             account_id=account_id,
-        ).aggregate(income=income, outcome=outcome)
+        ).report()
         return Response(data)
+
+
+class UserAccountListViewset(ModelViewSet):
+    queryset = Account.objects.all()
+    serializer_class = AccountSerializer

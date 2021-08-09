@@ -22,6 +22,7 @@ class DefaultRouter(routers.DefaultRouter):
 
 
 router = DefaultRouter()
+router.extend(users_urls.router)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
