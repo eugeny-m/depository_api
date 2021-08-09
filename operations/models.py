@@ -1,9 +1,31 @@
+from decimal import Decimal
+
 from django.db import models, transaction
+from django.db.models import Q, Sum
+from django.db.models.functions import Coalesce
 
 from depository.constants import (
     AMOUNT_DECIMAL_PLACES,
     AMOUNT_DECIMAL_MAX_DIGITS,
 )
+
+
+class OperationQuerySet(models.QuerySet):
+    def report(self):
+        income = Coalesce(
+            Sum('amount', filter=Q(operation_type=Operation.INCOME)),
+            Decimal(0),
+        )
+        outcome = Coalesce(
+            Sum('amount', filter=Q(operation_type=Operation.OUTCOME)),
+            Decimal(0),
+        )
+        return self.aggregate(income=income, outcome=outcome)
+
+
+class OperationManager(models.Manager):
+    def get_queryset(self):
+        return OperationQuerySet(model=self.model, using=self._db)
 
 
 class Operation(models.Model):
@@ -47,6 +69,8 @@ class Operation(models.Model):
         auto_now=True,
         null=False,
     )
+
+    objects = OperationManager()
 
     class Meta:
         index_together = (
