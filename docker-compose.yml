@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+  depository_api:
+    build: .
+    image: depository_api:latest
+    ports:
+      - 8000:8000
+    volumes:
+      - /opt/www/depository_api/db:/opt/www/db
+    command: python manage.py runserver 0.0.0.0:8000
+    restart: always
