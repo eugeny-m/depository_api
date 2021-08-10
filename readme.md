@@ -16,5 +16,5 @@
 
 #### Endpoints
 
-* http://0.0.0.0:8000/api/v1/accounts/ (User Account List Viewset List)
-* http://0.0.0.0:8000/api/v1/accounts/<account_id>/monthly-report/<int:year>/<int:month> (Monthly report of user account operations)
+* http://localhost:8000/api/v1/accounts/ (User Account List Viewset List)
+* http://localhost:8000/api/v1/accounts/<account_id>/monthly-report/<int:year>/<int:month> (Monthly report of user account operations)
